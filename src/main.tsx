@@ -58,12 +58,13 @@ const initialProductParameters: Param[] = [
 ];
 
 type InputType = [
-  Param[],
+  InputValues,
   (event: React.ChangeEvent<HTMLInputElement>) => void
 ];
+type InputValues = { [key: number]: string };
 
 const useInputHook = (): InputType => {
-  const [inputs, setInputs] = useState<any>(() => {
+  const [inputs, setInputs] = useState<InputValues>(() => {
     const initialInputValues = initialData.paramValues.reduce((acc, curr) => {
       acc[curr.paramId] = curr.value;
       return acc;
@@ -73,7 +74,7 @@ const useInputHook = (): InputType => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, id } = event.target;
-    setInputs((prevInputs: { id: string; value: string }) => ({
+    setInputs(prevInputs => ({
       ...prevInputs,
       [id]: value,
     }));
@@ -82,7 +83,7 @@ const useInputHook = (): InputType => {
   return [inputs, handleChange];
 };
 
-const ProductParameterInputs: React.FC = () => {
+const ParamEditor: React.FC = () => {
   const [inputs, handleChange] = useInputHook();
   return (
     <>
@@ -100,21 +101,26 @@ const ProductParameterInputs: React.FC = () => {
         ))}
       </div>
       <br />
-      <div className='input-group'>
-        <pre>
-          {JSON.stringify(
-            initialProductParameters.map(({ id, name }) => ({
-              [name]: inputs[id],
-            })),
-            null,
-            2
-          )}
-        </pre>
-      </div>
+      <ParamSummary params={initialProductParameters} inputs={inputs} />
     </>
   );
 };
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <ProductParameterInputs />
+const ParamSummary: React.FC<{ params: Param[]; inputs: InputValues }> = ({
+  params,
+  inputs,
+}) => (
+  <div className='input-group'>
+    <pre>
+      {JSON.stringify(
+        params.map(({ id, name }) => ({
+          [name]: inputs[id],
+        })),
+        null,
+        2
+      )}
+    </pre>
+  </div>
 );
+
+ReactDOM.createRoot(document.getElementById('root')!).render(<ParamEditor />);
