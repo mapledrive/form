@@ -47,13 +47,10 @@ pre {
   grid-template-columns: 100px auto;
   gap: 10px;
   align-items: center;
-
-  /* width: 300px; */
-  /* padding: 24px; */
 }
 
 .input-item:not(:last-child) {
-  margin-bottom: 10px; /* Adjust margin values as needed */
+  margin-bottom: 10px;
 }
 
 .input-group input {
