@@ -1,11 +1,12 @@
+@font-face {
+  font-family: SoSans;
+  src: url('./sosans.woff2');
+}
+
 *,
 *:before,
 *:after {
   box-sizing: border-box;
-}
-
-pre {
-  color: black;
 }
 
 body {
@@ -13,7 +14,7 @@ body {
   display: flex;
   place-items: center;
   min-height: 100vh;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: SoSans, Arial, Helvetica, sans-serif;
   color: rgba(255, 255, 255, 0.87);
   background-color: #f0fbec;
 }
@@ -22,12 +23,23 @@ body {
   margin: 0 auto;
 }
 
+pre {
+  color: black;
+  font-size: 14px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: 400;
+  justify-self: start;
+  text-align: left;
+}
+
 .input-group {
   background-color: #ffffff;
   width: 400px;
   padding: 24px;
   box-shadow: 0 12px 24px 0 rgba(45, 73, 88, 0.15);
   border-radius: 8px;
+  margin-bottom: 24px;
 }
 
 .input-item {
@@ -63,7 +75,6 @@ body {
   padding: 0 15px;
   transition: border 0.17s ease-in-out, box-shadow 0.17s ease-in-out;
   width: 100%;
-
   color: #464646;
 }
 
@@ -72,10 +83,13 @@ input[type='text'] {
 }
 
 .input-group label {
-  color: #262626;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.5px;
+  color: rgba(38, 38, 38, 0.55);
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.3px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: 400;
   justify-self: start;
   text-align: left;
 }

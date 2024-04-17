@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
-// данные с информацией о товаре
+/**
+ * Types and interfaces
+ */
 interface Model {
   paramValues: ParamValue[];
   colors?: Color[];
@@ -13,12 +15,28 @@ interface Color {
   background: string;
 }
 
+interface Param {
+  id: number;
+  name: string;
+  type?: 'string';
+}
+
 interface ParamValue {
   paramId: number;
   value: string;
 }
 
-const initialData: Model = {
+type InputType = [
+  InputValues,
+  (event: React.ChangeEvent<HTMLInputElement>) => void
+];
+type InputValues = { [key: number]: string };
+
+/**
+ * All data structures
+ */
+
+const initialModelData: Model = {
   paramValues: [
     {
       paramId: 1,
@@ -31,21 +49,6 @@ const initialData: Model = {
   ],
 };
 
-// набор параметров товара
-// Решение должно быть легко расширяемым
-// (например, позволять легко добавлять новые типы параметров –
-// не только текстовые, но например числовые или со списком значений)
-interface Param {
-  id: number;
-  name: string;
-  type?: 'string';
-}
-
-// interface Props {
-//   params: Param[];
-//   model: Model;
-// }
-
 const initialProductParameters: Param[] = [
   {
     id: 1,
@@ -57,18 +60,18 @@ const initialProductParameters: Param[] = [
   },
 ];
 
-type InputType = [
-  InputValues,
-  (event: React.ChangeEvent<HTMLInputElement>) => void
-];
-type InputValues = { [key: number]: string };
-
+/**
+ * Custom hook to extract stateful logic with input handler from component
+ */
 const useInputHook = (): InputType => {
   const [inputs, setInputs] = useState<InputValues>(() => {
-    const initialInputValues = initialData.paramValues.reduce((acc, curr) => {
-      acc[curr.paramId] = curr.value;
-      return acc;
-    }, {} as any);
+    const initialInputValues = initialModelData.paramValues.reduce(
+      (acc, curr) => {
+        acc[curr.paramId] = curr.value;
+        return acc;
+      },
+      {} as any
+    );
     return initialInputValues;
   });
 
@@ -83,6 +86,9 @@ const useInputHook = (): InputType => {
   return [inputs, handleChange];
 };
 
+/**
+ * Root component that renders inputs and summary data
+ */
 const ParamEditor: React.FC = () => {
   const [inputs, handleChange] = useInputHook();
   return (
@@ -100,12 +106,14 @@ const ParamEditor: React.FC = () => {
           </div>
         ))}
       </div>
-      <br />
       <ParamSummary params={initialProductParameters} inputs={inputs} />
     </>
   );
 };
 
+/**
+ * Model visualization component
+ */
 const ParamSummary: React.FC<{ params: Param[]; inputs: InputValues }> = ({
   params,
   inputs,
