@@ -8,6 +8,11 @@ interface Model {
   colors?: Color[];
 }
 
+interface Color {
+  cover: string;
+  background: string;
+}
+
 interface ParamValue {
   paramId: number;
   value: string;
@@ -36,10 +41,10 @@ interface Param {
   type?: 'string';
 }
 
-interface Props {
-  params: Param[];
-  model: Model;
-}
+// interface Props {
+//   params: Param[];
+//   model: Model;
+// }
 
 const initialProductParameters: Param[] = [
   {
